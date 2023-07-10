@@ -12,19 +12,20 @@ const client = new MongoClient(uri, {
 
 // The database to use
 const dbName = "chatMessagesDB";
+let db, col;
 
-async function run() {
+async function run(username, channel, content) {
     try {
         await client.connect();
         console.log("Connected correctly to server");
-        const db = client.db(dbName);
+        db = client.db(dbName);
         // Use the collection "people"
-        const col = db.collection("messages");
+        col = db.collection("messages");
         // Construct a document                                                                                                                                                              
         let message = {
-            "username": "bob",
-            "channel": "general",
-            "content": "hi guys",
+            "username": username,
+            "channel": channel,
+            "content": content,
         }
         // Insert a single document, wait for promise so we can read it back
         const p = await col.insertOne(message);
@@ -41,4 +42,4 @@ async function run() {
     }
 }
 
-run().catch(console.dir);
+// run().catch(console.dir);
