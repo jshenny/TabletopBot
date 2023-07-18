@@ -1,6 +1,17 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 require("dotenv").config();
-var database = require('./database');
+
+const WebSocket = require('ws');
+
+const ws = new WebSocket("ws://localhost:8080");
+
+ws.addEventListener("open", () => {
+    console.log("We are connected");
+});
+
+ws.addEventListener('message', function (event) {
+    console.log(event.data);
+});
 
 const client = new Client({
     intents: [
@@ -16,9 +27,15 @@ client.on('ready', () => {
 
 client.on('messageCreate', message => {
     console.log(`New message in ${message.channel.name} from ${message.author.tag}: ${message.content}`);
-    if (message.author.bot) return;
 
-    database.run(message.channel.name, message.author.tag, message.content);
+    var username = message.author.tag.split('#')[0]
+    var content = {
+        "username": username,
+        "channel": message.channel.name,
+        "content": message.content
+    }
+
+    ws.send(JSON.stringify(content))
 
     if (message.content === 'ping') { //read messages
         message.channel.send('pong');
