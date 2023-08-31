@@ -19,11 +19,13 @@ function foo(ws, index,jsdata, lcchannel){
     }
     ws.send(JSON.stringify(rs));
     index++;
-    if(index<jsdata["comments"].length){
-        setTimeout(e=>{
-            foo(ws, index, jsdata, lcchannel)
-        }, 500+(Math.random()*1000))
+    if(index>=jsdata["comments"].length){
+        index = 0;
     }
+    setTimeout(e=>{
+        foo(ws, index, jsdata, lcchannel)
+    }, 500+(Math.random()*1000))
+    
 
 }
 
