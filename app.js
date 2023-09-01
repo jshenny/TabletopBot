@@ -6,7 +6,12 @@ const fs = require('fs/promises');
 const WebSocket = require('ws')
 const WebSocketServer = WebSocket.WebSocketServer;
 
-const files = ["parsedData.json","parsedData.json","parsedData.json","parsedData.json","parsedData.json","parsedData.json"]
+const files = ["jsons/coffeeA.json",
+"jsons/coffeeB.json",
+"jsons/coffeeC.json",
+"jsons/coffeeD.json",
+"jsons/coffeeA.json",
+"jsons/coffeeB.json"]
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -24,7 +29,7 @@ function foo(ws, index,jsdata, lcchannel){
     }
     setTimeout(e=>{
         foo(ws, index, jsdata, lcchannel)
-    }, 500+(Math.random()*1000))
+    }, 2000+(Math.random()*1000))
     
 
 }
